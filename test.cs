@@ -23,9 +23,9 @@ namespace test3
 
             // latest NetSuite web services url
             netsuite.Url = "https://webservices.NETSUITE.com/services/NetSuitePort_2015_1";
-            passport.account = "449066";
-            passport.email = "steftaieb@gmail.com";
-            passport.password = "Temp123456";
+            passport.account = "-";
+            passport.email = "-";
+            passport.password = "-";
             passport.role = role;
 
             Console.WriteLine("\nLogging into NetSuite ... ");
