@@ -4,39 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Services.Protocols;
-using NetSuiteTest.com.netsuite.webservices;
+using test3.com.netsuite.webservices;
 
-namespace NetSuiteTest
+namespace test3
 {
     class Program
     {
         static void Main(string[] args)
         {
-            NetSuiteService service = new NetSuiteService();
-            service.CookieContainer = new System.Net.CookieContainer();
-
-            //invoke the login operation
+            // create objects for netsuite login
+            NetSuiteService netsuite = new NetSuiteService();
+            netsuite.CookieContainer = new System.Net.CookieContainer();
             Passport passport = new Passport();
-            passport.account = "TSTDRV96"; // replace with NS account number
-            passport.email = "username@netsuite.com"; // replace with login
             RecordRef role = new RecordRef();
-            role.internalId = "3"; // roles: 3 == admin
+
+            // hard code for administrator role 3
+            role.externalId = "3";
+
+            // latest NetSuite web services url
+            netsuite.Url = "https://webservices.NETSUITE.com/services/NetSuitePort_2015_1";
+            passport.account = "449066";
+            passport.email = "steftaieb@gmail.com";
+            passport.password = "Temp123456";
             passport.role = role;
-            passport.password = "mypassword"; // replace with account password
-            Status status = service.login(passport).status;
-            Console.Write("Logging In");
 
-            // create a customer
-            Customer cust = new Customer();
-            cust.entityID( “XYZ Inc” );
-            WriteResponse response = service.add(cust);
-            Console.Write("Creating Customer");
+            Console.WriteLine("\nLogging into NetSuite ... ");
+            Console.WriteLine("\nUsername: " + passport.email);
+            Console.WriteLine("\nAccount: " + passport.account);
 
-            // logout
-            service.logout();
-            Console.Write("Logout");
+            // try loggin into web services
+            Status status = netsuite.login(passport).status;
 
-            // leave console open debugging
+            Console.WriteLine("\nLogged in.");
+
+            netsuite.logout();
+            Console.WriteLine("\nLogged out.");
+
             Console.Read();
         }
     }
